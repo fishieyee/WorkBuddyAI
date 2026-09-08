@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy 简易入门手册 · Bilingual</title>
+<style>
+  :root{
+    --bg:#f7f9fc; --card:#ffffff; --ink:#1f2937; --muted:#6b7280;
+    --brand:#2f6bff; --brand2:#7c3aed; --accent:#06b6d4; --ok:#10b981;
+    --warn:#f59e0b; --line:#e5e9f2; --soft:#eef3ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.7; padding:0 0 60px;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px}
+  /* 语言切换按钮 */
+  .langbtn{
+    position:fixed;top:14px;right:14px;z-index:99;cursor:pointer;
+    background:#fff;border:1px solid var(--line);border-radius:99px;
+    padding:9px 18px;font-size:13px;font-weight:700;color:var(--brand);
+    box-shadow:0 4px 14px rgba(31,41,55,.14);transition:.15s;
+  }
+  .langbtn:hover{background:var(--soft);transform:translateY(-1px)}
+  header{
+    background:linear-gradient(120deg,var(--brand),var(--brand2));
+    color:#fff;padding:46px 20px 40px;text-align:center;
+  }
+  header h1{font-size:29px;letter-spacing:.5px}
+  .h1en{font-size:15px;opacity:.92;margin-top:6px}
+  header p{opacity:.92;margin-top:10px;font-size:14px}
+  .pill{display:inline-block;background:rgba(255,255,255,.18);border-radius:99px;padding:4px 14px;font-size:13px;margin-top:14px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 26px;margin:22px 0;box-shadow:0 4px 18px rgba(31,41,55,.04)}
+  h2{font-size:20px;margin-bottom:4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h2 .num{background:var(--brand);color:#fff;width:30px;height:30px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+  .h2en{font-size:14px;color:var(--brand2);font-weight:600;margin-bottom:8px}
+  .lead{color:var(--muted);font-size:14px;margin-bottom:14px}
+  .en{color:var(--muted);font-size:13.5px;line-height:1.65}
+  .card{background:var(--soft);border-radius:12px;padding:14px 18px;margin:12px 0}
+  .card h3{font-size:16px;margin-bottom:2px;color:var(--brand)}
+  .h3en{font-size:13px;color:var(--brand2);font-weight:600;margin-bottom:4px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
+  .feature{border:1px solid var(--line);border-radius:12px;padding:14px}
+  .feature .ic{width:42px;height:42px;margin-bottom:8px}
+  .feature h4{font-size:15px;margin-bottom:2px}
+  .h4en{font-size:12px;color:var(--brand2);font-weight:600;margin-bottom:4px}
+  .feature p{font-size:13px;color:var(--muted)}
+  .tip{background:#fff7ed;border-left:4px solid var(--warn);border-radius:0 10px 10px 0;padding:12px 16px;margin:14px 0;font-size:14px}
+  .ok{background:#ecfdf5;border-left:4px solid var(--ok);border-radius:0 10px 10px 0;padding:12px 16px;margin:14px 0;font-size:14px}
+  .steps{counter-reset:s;list-style:none}
+  .steps li{position:relative;padding:14px 16px 14px 56px;border:1px solid var(--line);border-radius:12px;margin:12px 0;background:#fff}
+  .steps li:before{counter-increment:s;content:counter(s);position:absolute;left:14px;top:14px;width:28px;height:28px;background:var(--brand);color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .steps li b{color:var(--brand2)}
+  code{background:#eef1f7;padding:2px 7px;border-radius:6px;font-size:13px;color:#b91c1c;word-break:break-word}
+  .bigsvg{width:100%;height:auto;display:block;margin:8px 0;border-radius:12px}
+  .center{text-align:center}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px}
+  .tag{display:inline-block;background:var(--soft);color:var(--brand);border-radius:8px;padding:3px 10px;font-size:12px;margin:3px 4px 0 0}
+
+  /* ===== 语言切换显示规则 ===== */
+  /* 默认（双语）: 中英文都显示，英文为浅色辅助 */
+  body.lang-zh .en,
+  body.lang-zh .h3en,
+  body.lang-zh .h4en{display:none}
+  body.lang-en .zh{display:none}
+  body.lang-en .en{color:var(--ink);font-size:15px}
+  body.lang-en h2 .en{color:var(--ink);font-size:20px;font-weight:700}
+  body.lang-en .h1en{font-size:24px;font-weight:700;opacity:1}
+  body.lang-en .h2en{color:var(--ink);font-size:18px}
+  body.lang-en .h3en,
+  body.lang-en .h4en{color:var(--ink);font-size:15px;font-weight:700}
+  body.lang-en .pill.en{background:rgba(255,255,255,.28)}
+</style>
+</head>
+<body class="lang-both">
+
+<button class="langbtn" id="langBtn">🌐 双语 Both</button>
+
+<header>
+  <h1><span class="zh">🧭 WorkBuddy 简易入门手册</span><span class="en h1en">🧭 WorkBuddy Quick-Start Guide</span></h1>
+  <p class="zh">给 AI 新手的一份图文速成 —— 不用学代码，开口就能用</p>
+  <p class="en">A visual, code-free beginner's guide — just talk to it.</p>
+  <span class="pill zh">零基础友好 · 边用边学 · 约 5 分钟读完</span>
+  <span class="pill en">Beginner-friendly · Learn by doing · ~5 min read</span>
+</header>
+
+<div class="wrap">
+
+  <!-- 1. 这是什么 -->
+  <section>
+    <h2><span class="num">1</span><span class="zh">WorkBuddy 是什么？</span><span class="en">What is WorkBuddy?</span></h2>
+    <p class="lead zh">一句话：能「动手干活」的 AI 助手，而不仅是聊天机器人。</p>
+    <p class="lead en">In one line: an AI assistant that gets things done — not just a chatbot that talks.</p>
+    <p class="zh">普通的 AI 只会给你答案。WorkBuddy 不一样 —— 它能<strong>读文件、写文档、跑命令、连应用、定时自动执行任务</strong>。你在左边的对话框里用大白话告诉它要做什么，它就把活干完，并把成果直接交给你。</p>
+    <p class="en">Most AIs only give you answers. WorkBuddy is different — it can read files, write documents, run commands, connect apps, and run tasks on a schedule. You tell it what to do in plain language, and it delivers the finished result.</p>
+    <div class="ok"><p class="zh">💡 新手认知：把它当成一个「什么都会一点的全能实习生」。你负责说清楚目标，它负责执行细节。</p><p class="en">💡 Think of it as an all-rounder intern. You set the goal; it handles the details.</p></div>
+  </section>
+
+  <!-- 2. 主界面速览 -->
+  <section>
+    <h2><span class="num">2</span><span class="zh">主界面速览</span><span class="en">The Interface at a Glance</span></h2>
+    <p class="lead zh">记住 4 个区域，你就不会迷路。</p>
+    <p class="lead en">Remember these 4 areas and you won't get lost.</p>
+    <svg class="bigsvg" viewBox="0 0 680 360" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+      <rect x="0" y="0" width="680" height="360" rx="14" fill="#eef3ff"/>
+      <rect x="14" y="16" width="150" height="328" rx="10" fill="#ffffff" stroke="#cdd8f5"/>
+      <rect x="28" y="34" width="122" height="22" rx="6" fill="#2f6bff"/>
+      <text x="89" y="49" font-size="11" fill="#fff" text-anchor="middle">侧边栏 Sidebar</text>
+      <circle cx="40" cy="86" r="5" fill="#7c3aed"/><text x="54" y="90" font-size="10.5" fill="#374151">专家 Experts</text>
+      <circle cx="40" cy="112" r="5" fill="#06b6d4"/><text x="54" y="116" font-size="10.5" fill="#374151">技能 Skills</text>
+      <circle cx="40" cy="138" r="5" fill="#10b981"/><text x="54" y="142" font-size="10.5" fill="#374151">连接器 Links</text>
+      <circle cx="40" cy="164" r="5" fill="#f59e0b"/><text x="54" y="168" font-size="10.5" fill="#374151">自动化 Auto</text>
+      <rect x="28" y="232" width="122" height="96" rx="8" fill="#f7f9fc" stroke="#e5e9f2"/>
+      <text x="89" y="252" font-size="10" fill="#6b7280" text-anchor="middle">历史对话 History</text>
+      <rect x="36" y="262" width="106" height="12" rx="4" fill="#e5e9f2"/>
+      <rect x="36" y="280" width="86" height="12" rx="4" fill="#e5e9f2"/>
+      <rect x="36" y="298" width="96" height="12" rx="4" fill="#e5e9f2"/>
+      <rect x="178" y="16" width="488" height="328" rx="10" fill="#ffffff" stroke="#cdd8f5"/>
+      <text x="200" y="40" font-size="11" fill="#6b7280">② 对话区 Chat（你在这里发指令）</text>
+      <rect x="200" y="52" width="300" height="42" rx="10" fill="#eef3ff"/>
+      <text x="214" y="79" font-size="11.5" fill="#374151">把这份 PDF 改成小红书文案 📝</text>
+      <rect x="300" y="118" width="344" height="66" rx="10" fill="#f3f4f6"/>
+      <text x="314" y="142" font-size="11.5" fill="#374151">③ 成果预览 Preview（文件/网页/图表）</text>
+      <text x="314" y="164" font-size="10.5" fill="#6b7280">AI 已生成文件，可直接打开 ↓</text>
+      <rect x="200" y="206" width="444" height="114" rx="12" fill="#f7f9fc" stroke="#e5e9f2"/>
+      <text x="216" y="230" font-size="11" fill="#6b7280">④ 输入 + 模式 Input + Mode（Agent / Plan / Ask）</text>
+      <rect x="216" y="244" width="412" height="34" rx="8" fill="#fff" stroke="#d8e0f3"/>
+      <text x="228" y="266" font-size="11" fill="#9ca3af">说点什么… e.g.「帮我做个周报模板」</text>
+      <rect x="540" y="292" width="88" height="28" rx="8" fill="#2f6bff"/>
+      <text x="584" y="310" font-size="11" fill="#fff" text-anchor="middle">发送 ➤</text>
+    </svg>
+    <div class="grid2">
+      <div class="card"><h3><span class="zh">① 侧边栏</span><span class="h3en"> Sidebar</span></h3><p class="zh">放「专家、技能、连接器、自动化」的入口。新手不用全懂，知道它们在这里就行。</p><p class="en">Home of Experts, Skills, Connectors, Automations. You don't need to master them yet.</p></div>
+      <div class="card"><h3><span class="zh">② 对话区</span><span class="h3en"> Chat</span></h3><p class="zh">你和 AI 的聊天记录，所有指令和回复都在这里。</p><p class="en">Your conversation with the AI — every command and reply lives here.</p></div>
+      <div class="card"><h3><span class="zh">③ 成果预览</span><span class="h3en"> Preview</span></h3><p class="zh">生成的文件、网页、图表会直接显示，可下载或打开。</p><p class="en">Generated files, pages and charts show up here — open or download them.</p></div>
+      <div class="card"><h3><span class="zh">④ 输入 + 模式</span><span class="h3en"> Input + Mode</span></h3><p class="zh">打字发指令；右上角切换「动手 / 计划 / 只聊」三种模式。</p><p class="en">Type your request; switch the three modes at top-right.</p></div>
+    </div>
+  </section>
+
+  <!-- 3. 三种模式 -->
+  <section>
+    <h2><span class="num">3</span><span class="zh">三种模式：什么时候用哪个？</span><span class="en">Three Modes: Which to Use When?</span></h2>
+    <p class="lead zh">这是新手最容易忽略、却最关键的开关。</p>
+    <p class="lead en">The most important switch beginners overlook.</p>
+    <svg class="bigsvg" viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+      <rect x="20" y="28" width="190" height="150" rx="14" fill="#e7f0ff" stroke="#2f6bff"/>
+      <text x="115" y="60" font-size="15" fill="#2f6bff" text-anchor="middle" font-weight="bold">Agent 模式</text>
+      <text x="115" y="78" font-size="11" fill="#7c3aed" text-anchor="middle" font-weight="bold">Agent Mode</text>
+      <text x="115" y="104" font-size="11.5" fill="#374151" text-anchor="middle">你说，我直接做</text>
+      <text x="115" y="124" font-size="10.5" fill="#6b7280" text-anchor="middle">建文件·跑任务·出成果</text>
+      <text x="115" y="162" font-size="10" fill="#6b7280" text-anchor="middle">⭐ 新手默认用它</text>
+      <rect x="245" y="28" width="190" height="150" rx="14" fill="#f3ecff" stroke="#7c3aed"/>
+      <text x="340" y="60" font-size="15" fill="#7c3aed" text-anchor="middle" font-weight="bold">Plan 模式</text>
+      <text x="340" y="78" font-size="11" fill="#7c3aed" text-anchor="middle" font-weight="bold">Plan Mode</text>
+      <text x="340" y="104" font-size="11.5" fill="#374151" text-anchor="middle">先想清楚再动手</text>
+      <text x="340" y="124" font-size="10.5" fill="#6b7280" text-anchor="middle">列步骤·确认后执行</text>
+      <text x="340" y="162" font-size="10" fill="#6b7280" text-anchor="middle">复杂/重要任务用</text>
+      <rect x="470" y="28" width="190" height="150" rx="14" fill="#e9fbff" stroke="#06b6d4"/>
+      <text x="565" y="60" font-size="15" fill="#0891b2" text-anchor="middle" font-weight="bold">Ask 模式</text>
+      <text x="565" y="78" font-size="11" fill="#0891b2" text-anchor="middle" font-weight="bold">Ask Mode</text>
+      <text x="565" y="104" font-size="11.5" fill="#374151" text-anchor="middle">只聊，不动手</text>
+      <text x="565" y="124" font-size="10.5" fill="#6b7280" text-anchor="middle">问问题·学概念·咨询</text>
+      <text x="565" y="162" font-size="10" fill="#6b7280" text-anchor="middle">想清楚再决定用</text>
+    </svg>
+    <div class="tip"><p class="zh">⚠️ 新手默认用 <b>Agent 模式</b>。只有当你想「先看到方案再让 AI 干活」时，才切到 Plan 模式。</p><p class="en">⚠️ Beginners: stick with Agent Mode. Switch to Plan only when you want to see the plan before it acts.</p></div>
+  </section>
+
+  <!-- 4. 四大能力 -->
+  <section>
+    <h2><span class="num">4</span><span class="zh">四大能力（知道有，就够用）</span><span class="en">Four Core Powers (knowing they exist is enough)</span></h2>
+    <p class="lead zh">不用背定义，记住「它们能帮你做什么」。</p>
+    <p class="lead en">No need to memorise definitions — just remember what each can do for you.</p>
+    <div class="grid3">
+      <div class="feature">
+        <svg class="ic" viewBox="0 0 48 48"><rect x="6" y="10" width="36" height="28" rx="5" fill="#2f6bff"/><path d="M14 20h20M14 27h14" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
+        <h4><span class="zh">技能 Skills</span><span class="h4en"> Skills</span></h4>
+        <p><span class="zh">专项工具箱：做 PPT、转 PDF、写 Excel、抓网页等。开口说需求，AI 自动调用。</span><span class="en">Toolkits: PPT, PDF, Excel, web scraping… just ask, AI picks the right one.</span></p>
+      </div>
+      <div class="feature">
+        <svg class="ic" viewBox="0 0 48 48"><circle cx="24" cy="16" r="8" fill="#7c3aed"/><path d="M10 40c0-8 6-12 14-12s14 4 14 12" fill="#7c3aed"/></svg>
+        <h4><span class="zh">专家 Experts</span><span class="h4en"> Experts</span></h4>
+        <p><span class="zh">扮演某个角色（分析师、文案、翻译），让回答更专业、更贴合你的领域。</span><span class="en">Plays a role (analyst, writer, translator) for more expert, on-topic answers.</span></p>
+      </div>
+      <div class="feature">
+        <svg class="ic" viewBox="0 0 48 48"><path d="M24 6l16 9v18l-16 9-16-9V15z" fill="none" stroke="#10b981" stroke-width="3"/><path d="M24 6v36M8 15l16 9 16-9" stroke="#10b981" stroke-width="3" fill="none"/></svg>
+        <h4><span class="zh">连接器</span><span class="h4en"> Connectors</span></h4>
+        <p><span class="zh">连上你的邮箱、日历、网盘、第三方应用，让 AI 真正「接入你的世界」。</span><span class="en">Link your email, calendar, drive and apps so AI enters your world.</span></p>
+      </div>
+      <div class="feature">
+        <svg class="ic" viewBox="0 0 48 48"><circle cx="24" cy="24" r="16" fill="none" stroke="#f59e0b" stroke-width="3"/><path d="M24 14v10l7 5" stroke="#f59e0b" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+        <h4><span class="zh">自动化</span><span class="h4en"> Automations</span></h4>
+        <p><span class="zh">设定「每天 9 点帮我汇总新闻」这类定时任务，AI 自己按时干活。</span><span class="en">Schedule tasks like "summarise news at 9am daily" — AI runs them for you.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 新手三步上手 -->
+  <section>
+    <h2><span class="num">5</span><span class="zh">新手三步上手（照着发就行）</span><span class="en">Three Steps to Get Started (just copy &amp; send)</span></h2>
+    <p class="lead zh">下面三步最实用，把例子换成你自己的事即可。</p>
+    <p class="lead en">These three steps are the most useful — swap in your own examples.</p>
+    <ul class="steps">
+      <li><span class="zh"><b>把素材变内容：</b>把一份资料或 PDF 丢进来，说 <code>「帮我整理成一篇清楚好读的说明 / 文案」</code>。AI 会直接产出成稿。</span><br><span class="en"><b>Turn material into content:</b> drop in a file/PDF and say <code>"Turn this into a clear, readable write-up"</code>.</span></li>
+      <li><span class="zh"><b>建一个工作模板：</b>说 <code>「做一个每周待办表（Excel），列日期、事项、优先级、状态」</code>。从此不用从零开始。</span><br><span class="en"><b>Build a template:</b> say <code>"Make a weekly to-do sheet (Excel) with date, task, priority, status"</code>.</span></li>
+      <li><span class="zh"><b>设一个自动提醒：</b>说 <code>「每周一早上 9 点提醒我做本周计划」</code>。AI 会建好定时任务，到时候自动提示你。</span><br><span class="en"><b>Set a reminder:</b> say <code>"Remind me every Monday 9am to plan my week"</code>.</span></li>
+    </ul>
+    <div class="ok"><p class="zh">✅ 做完这三步，你就已经跨过「会用」的门槛了。后面的高级功能，是「用着用着自然学会」的。</p><p class="en">✅ Finish these three and you've crossed the "I can use it" line. Advanced features come naturally with use.</p></div>
+  </section>
+
+  <!-- 6. 技巧与误区 -->
+  <section>
+    <h2><span class="num">6</span><span class="zh">3 个技巧 + 3 个误区</span><span class="en">3 Tips + 3 Mistakes</span></h2>
+    <div class="grid2">
+      <div>
+        <h3 style="color:var(--ok);font-size:15px;margin-bottom:6px"><span class="zh">✅ 这样做更好 / Do this</span><span class="en">✅ Do this</span></h3>
+        <div class="card"><b><span class="zh">说清目标 + 背景</span><span class="en">State goal + context</span></b><br><span class="zh">「我是做 XX 的，写给 XX 读者看」比「写篇文案」好 10 倍。</span><span class="en">Far better results than a vague "write something".</span></div>
+        <div class="card"><b><span class="zh">一次只给一件事</span><span class="en">One task at a time</span></b><br><span class="zh">复杂任务先说大意，让 AI 拆解，比堆 10 个要求更稳。</span><span class="en">Let AI break down complex tasks for you.</span></div>
+        <div class="card"><b><span class="zh">不满意就追一句</span><span class="en">Refine in chat</span></b><br><span class="zh">「语气再活泼点」「缩短到 100 字」——对话式修改最快。</span><span class="en">"Make it livelier", "cut to 100 words" — quickest edits.</span></div>
+      </div>
+      <div>
+        <h3 style="color:var(--warn);font-size:15px;margin-bottom:6px"><span class="zh">⚠️ 新手常踩 / Avoid this</span><span class="en">⚠️ Avoid this</span></h3>
+        <div class="card"><b><span class="zh">以为要学代码</span><span class="en">No coding needed</span></b><br><span class="zh">不用。WorkBuddy 把技术藏在背后，你只用说人话。</span><span class="en">It hides the tech; you just talk.</span></div>
+        <div class="card"><b><span class="zh">一上来追求全部功能</span><span class="en">Don't chase all features</span></b><br><span class="zh">Connector、自动化先放着，先让它帮你完成 1 件真事。</span><span class="en">Finish one real task first.</span></div>
+        <div class="card"><b><span class="zh">把机密直接贴进对话</span><span class="en">Be careful with secrets</span></b><br><span class="zh">敏感信息谨慎；连个人应用前确认来源可信。</span><span class="en">Verify sources before connecting apps.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 下一步 -->
+  <section>
+    <h2><span class="num">7</span><span class="zh">下一步：把这本手册用起来</span><span class="en">Next: Put This Guide to Work</span></h2>
+    <p class="lead zh">最好的学习是「带着真实任务上手」。挑一个今天就能试的：</p>
+    <p class="lead en">The best learning is doing a real task. Pick one to try today:</p>
+    <div class="center" style="margin:10px 0">
+      <span class="tag">整理资料 → 文案</span>
+      <span class="tag">做排期 / 待办表</span>
+      <span class="tag">定时提醒</span>
+      <span class="tag">竞品 / 信息调研</span>
+      <span class="tag">英文简历润色</span>
+      <span class="tag">做配图方案</span>
+    </div>
+    <div class="ok"><p class="zh">🚀 直接在本对话里发一句你的真实需求，我们一边做一边学。遇到不会的，随时问「这个怎么用」。</p><p class="en">🚀 Just send a real request in chat. We'll learn by doing — and ask "how do I use this?" anytime.</p></div>
+  </section>
+
+  <footer>
+    <p><span class="zh">为 Megan 和 Dennice 打造 · WorkBuddy 简易入门手册（中英双语）</span><span class="en">Made for Megan &amp; Dennice · WorkBuddy Quick-Start Guide (Bilingual CN/EN)</span></p>
+    <p>边用边学，比看教程更快 · Learn by doing, faster than any tutorial</p>
+  </footer>
+
+</div>
+
+<script>
+  var states = ["both","zh","en"];
+  var labels = ["🌐 双语 Both","🇨🇳 中文","🇬🇧 English"];
+  var i = 0;
+  var btn = document.getElementById("langBtn");
+  function setLang(){
+    document.body.className = "lang-" + states[i];
+    btn.textContent = labels[i];
+  }
+  btn.addEventListener("click", function(){
+    i = (i + 1) % 3;
+    setLang();
+  });
+  setLang();
+</script>
+
+</body>
+</html>
